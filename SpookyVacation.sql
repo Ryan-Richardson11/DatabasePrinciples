@@ -52,3 +52,8 @@ INSERT INTO Activities (FamilyMemberID, Activity) VALUES (4, "Ghost Tour");
 INSERT INTO Activities (FamilyMemberID, Activity) VALUES (5, "Ghost Tour");
 INSERT INTO Activities (FamilyMemberID, Activity) VALUES (6, "Ghost Tour");
 INSERT INTO Activities (FamilyMemberID, Activity) VALUES (7, "Ghost Tour");
+
+select * from FamilyMembers;
+select * from DestinationChoices;
+select * from Activities;
+
