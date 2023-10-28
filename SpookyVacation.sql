@@ -4,6 +4,9 @@ CREATE DATABASE spookyvacation;
 
 USE spookyvacation;
 
+-- Super keys: (ID, MemberAge, MemberName), (ID, MemberAge), (ID, MemberName), (MemberAge, MemberName), (ID), (MemberAge), (MemberName)
+-- Candidate Keys: (ID, MemberAge), (ID, MemberName), (ID)
+-- Primary Key: (ID)
 CREATE TABLE IF NOT EXISTS FamilyMembers(
 	ID int not null auto_increment,
     MemberAge int,
@@ -12,6 +15,10 @@ CREATE TABLE IF NOT EXISTS FamilyMembers(
 );
 DROP TABLE IF EXISTS FamilyMembers;
 
+-- Super keys: (FamilyMemberID, DestinationName, DestinationZipCode), (FamilyMemberID, DestinationName), (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), 
+-- (FamilyMemberID), (DestinationName), (DestinationZipCode)
+-- Candidate Keys: (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), (FamilyMemberID), (DestinationZipCode)
+-- Primary Key: (FamilyMemberID, DestinationZipCode)
 CREATE TABLE IF NOT EXISTS DestinationChoices(
 	FamilyMemberID int not null,
     DestinationName varchar(20),
@@ -21,6 +28,9 @@ CREATE TABLE IF NOT EXISTS DestinationChoices(
 );
 DROP TABLE IF EXISTS DestinationChoices;
 
+-- Super keys: (FamilyMemberID, Activity), (FamilyMemberID), (Activity) 
+-- Candidate Keys: (FamilyMemberID, Activity), (FamilyMemberID)
+-- Primary Key: (FamilyMemberID)
 CREATE TABLE IF NOT EXISTS Activities(
 	FamilyMemberID int not null,
     Activity varchar(20),
