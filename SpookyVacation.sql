@@ -4,6 +4,7 @@ CREATE DATABASE spookyvacation;
 
 USE spookyvacation;
 
+-- Schema: FamilyMemmbers(ID int, MemberAge int, MemberName varchar(20))
 -- Super keys: (ID, MemberAge, MemberName), (ID, MemberAge), (ID, MemberName), (MemberAge, MemberName), (ID), (MemberAge), (MemberName)
 -- Candidate Keys: (ID, MemberAge), (ID, MemberName), (ID)
 -- Primary Key: (ID)
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS FamilyMembers(
 );
 DROP TABLE IF EXISTS FamilyMembers;
 
+-- Schema: DestinationChoices(FamilyMemberID int, DestinationName varchar(20), DestinationZipCode int)
 -- Super keys: (FamilyMemberID, DestinationName, DestinationZipCode), (FamilyMemberID, DestinationName), (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), 
 -- (FamilyMemberID), (DestinationName), (DestinationZipCode)
 -- Candidate Keys: (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), (FamilyMemberID), (DestinationZipCode)
@@ -28,6 +30,7 @@ CREATE TABLE IF NOT EXISTS DestinationChoices(
 );
 DROP TABLE IF EXISTS DestinationChoices;
 
+-- Schema: DestinationChoices(FamilyMemberID int, Activity varchar(20))
 -- Super keys: (FamilyMemberID, Activity), (FamilyMemberID), (Activity) 
 -- Candidate Keys: (FamilyMemberID, Activity), (FamilyMemberID)
 -- Primary Key: (FamilyMemberID)
