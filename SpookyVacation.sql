@@ -17,30 +17,30 @@ CREATE TABLE IF NOT EXISTS FamilyMembers(
 );
 DROP TABLE IF EXISTS FamilyMembers;
 
--- Schema: DestinationChoices(FamilyMemberID int, DestinationName varchar(20), DestinationZipCode int)
+-- Schema: DestinationChoices(FamilyMemberID int, DestinationName varchar(50), DestinationZipCode int)
 -- Super keys: (FamilyMemberID, DestinationName, DestinationZipCode), (FamilyMemberID, DestinationName), (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), 
 -- (FamilyMemberID), (DestinationName), (DestinationZipCode)
 -- Candidate Keys: (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), (FamilyMemberID), (DestinationZipCode)
 -- Primary Key: (FamilyMemberID, DestinationZipCode)
--- (FamilyMemberID, DestinationZipCode) is a unique identifier for each family member and their choice. The zip code is not unique due to two members choosing an activity in the same destination.
+-- (FamilyMemberID) is a unique identifier for each family member and their choice. The zip code is not unique due to two members choosing an activity in the same destination.
 -- FamilyID could be used as well though this is a good example of a tuple used as a primary key.
 CREATE TABLE IF NOT EXISTS DestinationChoices(
 	FamilyMemberID int not null,
-    DestinationName varchar(20),
-    DestinationZipCode int not null,
-    primary key (DestinationZipCode),
+    DestinationName varchar(50),
+    DestinationZipCode int,
+    primary key (FamilyMemberID),
     foreign key (FamilyMemberID) references FamilyMembers (ID) on update cascade on delete cascade
 );
 DROP TABLE IF EXISTS DestinationChoices;
 
--- Schema: DestinationChoices(FamilyMemberID int, Activity varchar(20))
+-- Schema: DestinationChoices(FamilyMemberID int, Activity varchar(50))
 -- Super keys: (FamilyMemberID, Activity), (FamilyMemberID), (Activity) 
 -- Candidate Keys: (FamilyMemberID, Activity), (FamilyMemberID)
 -- Primary Key: (FamilyMemberID)
 -- FamilyMemberID is a unique identifier value similar to the other relation tables. This makes it the best choice for the primary key.
 CREATE TABLE IF NOT EXISTS Activities(
 	FamilyMemberID int not null,
-    Activity varchar(20),
+    Activity varchar(50),
     primary key (FamilyMemberID),
     foreign key (FamilyMemberID) references FamilyMembers (ID) on update cascade on delete cascade
 );
