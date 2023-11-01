@@ -8,6 +8,7 @@ USE spookyvacation;
 -- Super keys: (ID, MemberAge, MemberName), (ID, MemberAge), (ID, MemberName), (MemberAge, MemberName), (ID), (MemberAge), (MemberName)
 -- Candidate Keys: (ID, MemberAge), (ID, MemberName), (ID)
 -- Primary Key: (ID)
+-- ID is a unique identifier for each member of the family so it is the best choice for the primary key.
 CREATE TABLE IF NOT EXISTS FamilyMembers(
 	ID int not null auto_increment,
     MemberAge int,
@@ -21,6 +22,8 @@ DROP TABLE IF EXISTS FamilyMembers;
 -- (FamilyMemberID), (DestinationName), (DestinationZipCode)
 -- Candidate Keys: (FamilyMemberID, DestinationZipCode), (DestinationName, DestinationZipCode), (FamilyMemberID), (DestinationZipCode)
 -- Primary Key: (FamilyMemberID, DestinationZipCode)
+-- (FamilyMemberID, DestinationZipCode) is a unique identifier for each family member and their choice. The zip code is not unique due to two members choosing an activity in the same destination.
+-- FamilyID could be used as well though this is a good example of a tuple used as a primary key.
 CREATE TABLE IF NOT EXISTS DestinationChoices(
 	FamilyMemberID int not null,
     DestinationName varchar(20),
@@ -34,6 +37,7 @@ DROP TABLE IF EXISTS DestinationChoices;
 -- Super keys: (FamilyMemberID, Activity), (FamilyMemberID), (Activity) 
 -- Candidate Keys: (FamilyMemberID, Activity), (FamilyMemberID)
 -- Primary Key: (FamilyMemberID)
+-- FamilyMemberID is a unique identifier value similar to the other relation tables. This makes it the best choice for the primary key.
 CREATE TABLE IF NOT EXISTS Activities(
 	FamilyMemberID int not null,
     Activity varchar(20),
