@@ -61,7 +61,6 @@ INSERT INTO Series (SeriesName) VALUES ("Call of Duty");
 INSERT INTO Series (SeriesName) VALUES ("Kingdom Hearts");
 INSERT INTO Series (SeriesName) VALUES ("Sonic");
 INSERT INTO Series (SeriesName) VALUES ("Spyro");
-INSERT INTO Series (SeriesName) VALUES ("Gears of War");
 
 CREATE TABLE  IF NOT EXISTS Game(
 Id int not null auto_increment,
@@ -138,6 +137,7 @@ INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Spyro's A
 INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Spyro's Adventure", "2011-10-13", "XBox 360", 7);
 
 -- Inserting my favorite video game series
+INSERT INTO Series (SeriesName) VALUES ("Gears of War");
 INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 1", "2006-11-07", "Xbox 360", 8);
 INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 2", "2008-11-07", "Xbox 360", 8);
 INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 3", "2011-09-20", "Xbox One", 8);
@@ -193,12 +193,12 @@ where g.ConsoleName not like "%Play Station%";
 ALTER TABLE Game
 DROP CONSTRAINT ValidGameReleaseDate;
 
-ALTER TABLE MyTable
+ALTER TABLE Game
 ADD CONSTRAINT ValidGameReleaseDate CHECK (ReleaseDate BETWEEN "1975-08-12" and "2023-11-01");
 
 -- Insert a game released in 2023 into the database
-
-
+INSERT INTO Series (SeriesName) VALUES ("Marvel's Spider-Man 2");
+INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 1", "2023-10-20", "Play Station 5", 9);
 
 
 
