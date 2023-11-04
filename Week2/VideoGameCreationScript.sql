@@ -61,6 +61,7 @@ INSERT INTO Series (SeriesName) VALUES ("Call of Duty");
 INSERT INTO Series (SeriesName) VALUES ("Kingdom Hearts");
 INSERT INTO Series (SeriesName) VALUES ("Sonic");
 INSERT INTO Series (SeriesName) VALUES ("Spyro");
+INSERT INTO Series (SeriesName) VALUES ("Gears of War");
 
 CREATE TABLE  IF NOT EXISTS Game(
 Id int not null auto_increment,
@@ -137,9 +138,9 @@ INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Spyro's A
 INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Spyro's Adventure", "2011-10-13", "XBox 360", 7);
 
 -- Inserting my favorite video game series
-INSERT INTO Game (GameName, ReleaseDate, ConsoleName) VALUES ("Gears of War 1", "2006-11-07", "Xbox 360");
-INSERT INTO Game (GameName, ReleaseDate, ConsoleName) VALUES ("Gears of War 2", "2008-11-07", "Xbox 360");
-INSERT INTO Game (GameName, ReleaseDate, ConsoleName) VALUES ("Gears of War 3", "2011-09-20", "Xbox One");
+INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 1", "2006-11-07", "Xbox 360", 8);
+INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 2", "2008-11-07", "Xbox 360", 8);
+INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 3", "2011-09-20", "Xbox One", 8);
 
 -- Games released on the first console I ever owned (Game Boy Advance)
 SELECT GameName
@@ -147,9 +148,31 @@ FROM Game
 WHERE ConsoleName = "Game Boy Advance";
 
 -- Updating NumPlayers for four games
+UPDATE Game
+SET NumPlayers = 100
+WHERE GameName = "Gears of War 1";
 
--- Games released on consoles released before 2000
+UPDATE Game
+SET NumPlayers = 2100
+WHERE GameName = "Gears of War 2";
 
+UPDATE Game
+SET NumPlayers = 6500
+WHERE GameName = "Gears of War 3";
+
+UPDATE Game
+SET NumPlayers = 450
+WHERE GameName = "Call of Duty: World at War";
+
+-- Games released on consoles released before 2000 *********************************
+SELECT GameName, g.ConsoleName
+FROM Game AS g
+JOIN Console AS c ON g.ConsoleName = c.ConsoleName
+WHERE c.ReleaseDate < '2000-01-01';
+
+Select GameName, g.ConsoleName
+from Game as g, Console as c
+WHere g.ConsoleName = c.ConsoleName and c.ReleaseDate < '2000-01-01';
 -- Games, consoles, and series released between January 1, 1995 and January 1, 2018
 
 -- Count of games released on a Playstation console
