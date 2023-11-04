@@ -164,7 +164,7 @@ UPDATE Game
 SET NumPlayers = 450
 WHERE GameName = "Call of Duty: World at War";
 
--- Games released on consoles released before 2000 *********************************
+-- Games released on consoles released before 2000 ********************************* QUESTION
 SELECT GameName, g.ConsoleName
 FROM Game AS g
 JOIN Console AS c ON g.ConsoleName = c.ConsoleName
@@ -184,12 +184,17 @@ select count(GameName)
 from game as g
 where g.ConsoleName like "%Play Station%";
 
--- Games not released on a PlayStation console
+-- Games not released on a PlayStation console *************************************** INCORRECT LOGIC
 select count(GameName)
 from game as g
 where g.ConsoleName not like "%Play Station%";
 
 -- Update game release constraint to prior to November, 2023
+ALTER TABLE Game
+DROP CONSTRAINT ValidGameReleaseDate;
+
+ALTER TABLE MyTable
+ADD CONSTRAINT ValidGameReleaseDate CHECK (ReleaseDate BETWEEN "1975-08-12" and "2023-11-01");
 
 -- Insert a game released in 2023 into the database
 
