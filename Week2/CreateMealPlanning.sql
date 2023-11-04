@@ -138,7 +138,12 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
--- Sorted count of each ingredient needed to make each recipe
+-- Sorted count of each ingredient needed to make each recipe ***************************
+select count(m.IngredientId) as IngredientCount, r.RecipeName, r.CookbookName
+from Meal as m, Recipe as r
+where m.RecipeName = r.RecipeName
+group by r.RecipeName, r.CookbookName
+order by IngredientCount DESC;
 
 -- Recipes that use some sort of pepper
 
