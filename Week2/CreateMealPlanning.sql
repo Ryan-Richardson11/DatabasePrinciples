@@ -145,7 +145,7 @@ where m.RecipeName = r.RecipeName
 group by r.RecipeName, r.CookbookName
 order by IngredientCount DESC;
 
--- Recipes that use some sort of pepper ***********************************
+-- Recipes that use some sort of pepper *********************************** Check
 select distinct r.RecipeName, r.CookbookName
 from Recipe as r
 WHERE r.recipeName not in (

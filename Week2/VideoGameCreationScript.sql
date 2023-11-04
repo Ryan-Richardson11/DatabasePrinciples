@@ -179,15 +179,19 @@ select GameName, ConsoleName, Series
 from Game as g
 where g.ReleaseDate between "1995-01-01" and "2018-01-01";
 
--- Count of games released on a Playstation console
-select count(GameName)
-from game as g
+-- Count of games released on a Playstation console *************************************** INCORRECT LOGIC
+select count(distinct GameName) as OnPlaystation
+from Game as g
 where g.ConsoleName like "%Play Station%";
 
 -- Games not released on a PlayStation console *************************************** INCORRECT LOGIC
-select count(GameName)
+select count(distinct GameName) as NotOnPlaystation
 from game as g
-where g.ConsoleName not like "%Play Station%";
+where g.GameName not in (
+	select GameName
+    from Game as g
+    where g.ConsoleName like "%Play Station%"
+);
 
 -- Update game release constraint to prior to November, 2023
 ALTER TABLE Game
@@ -198,7 +202,7 @@ ADD CONSTRAINT ValidGameReleaseDate CHECK (ReleaseDate BETWEEN "1975-08-12" and 
 
 -- Insert a game released in 2023 into the database
 INSERT INTO Series (SeriesName) VALUES ("Marvel's Spider-Man 2");
-INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Gears of War 1", "2023-10-20", "Play Station 5", 9);
+INSERT INTO Game (GameName, ReleaseDate, ConsoleName, Series) VALUES ("Marvel's Spider-Man 2", "2023-10-20", "Play Station 5", 9);
 
 
 
