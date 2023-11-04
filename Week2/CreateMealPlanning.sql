@@ -145,8 +145,14 @@ where m.RecipeName = r.RecipeName
 group by r.RecipeName, r.CookbookName
 order by IngredientCount DESC;
 
--- Recipes that use some sort of pepper
-
+-- Recipes that use some sort of pepper ***********************************
+select distinct r.RecipeName, r.CookbookName
+from Recipe as r
+WHERE r.recipeName not in (
+    select distinct r.RecipeName
+    from Recipe as r, Meal as m, Ingredients as i
+    where r.RecipeName = m.RecipeName and m.IngredientId = i.Id and i.ingredientName like "%pepper%"
+);
 
 
 
