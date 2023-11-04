@@ -172,8 +172,12 @@ WHERE c.ReleaseDate < '2000-01-01';
 
 Select GameName, g.ConsoleName
 from Game as g, Console as c
-WHere g.ConsoleName = c.ConsoleName and c.ReleaseDate < '2000-01-01';
+Where g.ConsoleName = c.ConsoleName and c.ReleaseDate < '2000-01-01';
+
 -- Games, consoles, and series released between January 1, 1995 and January 1, 2018
+select GameName, ConsoleName, Series
+from Game as g
+where g.ReleaseDate between "1995-01-01" and "2018-01-01";
 
 -- Count of games released on a Playstation console
 
