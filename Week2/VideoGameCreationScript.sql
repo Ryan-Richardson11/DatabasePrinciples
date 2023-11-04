@@ -180,8 +180,14 @@ from Game as g
 where g.ReleaseDate between "1995-01-01" and "2018-01-01";
 
 -- Count of games released on a Playstation console
+select count(GameName)
+from game as g
+where g.ConsoleName like "%Play Station%";
 
 -- Games not released on a PlayStation console
+select count(GameName)
+from game as g
+where g.ConsoleName not like "%Play Station%";
 
 -- Update game release constraint to prior to November, 2023
 
