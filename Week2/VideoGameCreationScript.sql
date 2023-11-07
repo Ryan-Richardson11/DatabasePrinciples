@@ -147,7 +147,7 @@ SELECT GameName
 FROM Game
 WHERE ConsoleName = "Game Boy Advance";
 
--- Updating NumPlayers for four games
+-- Updating NumPlayers for four games ****************** Safe Update mode
 UPDATE Game
 SET NumPlayers = 100
 WHERE GameName = "Gears of War 1";
