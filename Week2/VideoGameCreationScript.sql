@@ -179,12 +179,12 @@ select GameName, ConsoleName, Series
 from Game as g
 where g.ReleaseDate between "1995-01-01" and "2018-01-01";
 
--- Count of games released on a Playstation console *************************************** INCORRECT LOGIC
+-- Count of games released on a Playstation console
 select count(distinct GameName) as OnPlaystation
 from Game as g
 where g.ConsoleName like "%Play Station%";
 
--- Games not released on a PlayStation console *************************************** INCORRECT LOGIC
+-- Games not released on a PlayStation console
 select count(distinct GameName) as NotOnPlaystation
 from game as g
 where g.GameName not in (

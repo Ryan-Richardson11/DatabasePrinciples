@@ -138,14 +138,14 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
--- Sorted count of each ingredient needed to make each recipe ***************************
+-- Sorted count of each ingredient needed to make each recipe
 select count(m.IngredientId) as IngredientCount, r.RecipeName, r.CookbookName
 from Meal as m, Recipe as r
 where m.RecipeName = r.RecipeName
 group by r.RecipeName, r.CookbookName
 order by IngredientCount DESC;
 
--- Recipes that use some sort of pepper *********************************** Check
+-- Recipes that use some sort of pepper
 select distinct r.RecipeName, r.CookbookName
 from Recipe as r
 WHERE r.recipeName not in (
@@ -209,7 +209,7 @@ INSERT INTO Recipe (RecipeName, CookbookName, TotalServings) VALUES ("Stir Fry",
 INSERT INTO Recipe (RecipeName, CookbookName, TotalServings) VALUES ("Stuffing", "Domesticate Me", 8);
 INSERT INTO Recipe (RecipeName, CookbookName, TotalServings) VALUES ("Chicken Stew", "Dude Diet", 4);
 
-INSERT INTO Ingredients (IngredientName, IngredientType, IsAllergyConcern) VALUES ("Red Pepper", "produce", true);
+INSERT INTO Ingredients (IngredientName, IngredientType, IsAllergyConcern) VALUES ("Red Pepper", "produce", false);
 INSERT INTO Ingredients (IngredientName, IngredientType, IsAllergyConcern) VALUES ("Green Pepper", "produce", false);
 INSERT INTO Ingredients (IngredientName, IngredientType, IsAllergyConcern) VALUES ("Yellow Onion", "produce", false);
 INSERT INTO Ingredients (IngredientName, IngredientType, IsAllergyConcern) VALUES ("Chicken", "meat", false);
@@ -249,6 +249,11 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 4);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
+
+-- Finding recipes containing ingredients that are of allergy concern
+Select m.RecipeName, i.IngredientName
+from meal as m, ingredients as i
+where m.IngredientId = i.Id and i.isAllergyConcern = True;
 
 
 
