@@ -164,12 +164,7 @@ UPDATE Game
 SET NumPlayers = 450
 WHERE GameName = "Call of Duty: World at War";
 
--- Games released on consoles released before 2000 ********************************* QUESTION
-SELECT GameName, g.ConsoleName
-FROM Game AS g
-JOIN Console AS c ON g.ConsoleName = c.ConsoleName
-WHERE c.ReleaseDate < '2000-01-01';
-
+-- Games released on consoles released before 2000
 Select GameName, g.ConsoleName
 from Game as g, Console as c
 Where g.ConsoleName = c.ConsoleName and c.ReleaseDate < '2000-01-01';
