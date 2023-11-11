@@ -132,8 +132,47 @@ return IsValid;
 END$$
 delimiter ;
 
-Select IsValidIngredient("Butter") as IsValidIngredient;
+-- Using stored procedure to add my favorite recipe to the database
+DROP PROCEDURE IF EXISTS InsertNewRecipe;
 
+delimiter $$
+CREATE PROCEDURE InsertNewRecipe (
+myRecipeName varchar(100),
+myCookBookName varchar(200),
+myTotalServings int,
+myIsBook bool,
+myWebsite varchar(200))
+BEGIN
+
+DECLARE existingCookbookName varchar(200);
+DECLARE existingRecipeName varchar(100);
+
+SELECT CookbookName INTO existingCookbookName
+FROM Cookbook
+WHERE CookbookName = myCookBookName;
+
+select RecipeName into existingRecipeName
+from Recipe
+where RecipeName = myRecipeName;
+
+if (existingCookbookName is null) then
+insert into Cookbook (cookbookName, isBook, Website) values (myCookBookName,
+myIsBook, myWebsite);
+end if;
+
+if (existingRecipeName is null) then
+insert into Recipe (RecipeName, CookbookName, TotalServings) values (myRecipeName,
+myCookBookName, myTotalServings);
+end if;
+
+END $$
+delimiter ;
+
+CALL InsertNewRecipe("Shepherd's Pie", "Dude Diet", 5, true, null);
+
+
+Select *
+From Recipe;
 
 
 
