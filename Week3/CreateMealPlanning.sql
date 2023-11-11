@@ -120,14 +120,15 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 -- A function to determine if an ingredient is in the Ingredients table
 DROP FUNCTION IF EXISTS IsValidIngredient;
 delimiter $$
-CREATE FUNCTION IsValidIngredient (IngredientToCheck varchar(50))
-RETURNS int deterministic
+CREATE FUNCTION IsValidIngredient (IngredientToCheck varchar(200))
+RETURNS boolean deterministic
 BEGIN
-declare DesiredIngredientName int;
-SELECT COUNT(*) INTO DesiredIngredientName
-FROM Ingredients
-WHERE IngredientName = IngredientToCheck;
-return DesiredIngredientName;
+declare IsValid boolean;
+SET IsValid = EXISTS
+	(SELECT IngredientName
+	FROM Ingredients
+	WHERE IngredientName = IngredientToCheck);
+return IsValid;
 END$$
 delimiter ;
 
