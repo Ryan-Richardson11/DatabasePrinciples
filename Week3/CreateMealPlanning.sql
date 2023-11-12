@@ -179,19 +179,22 @@ delimiter $$
 CREATE PROCEDURE InsertRecipeIngredients (
 myIngredientName varchar(100),
 myIngredientType varchar(100),
-myRecipeName varchar(100),
-myIngredientId int)
+myRecipeName varchar(100))
+
 BEGIN
+DECLARE existingIngredientId INT;
+
 if (select IsExistingIngredient(myIngredientName) = false) then
 insert into Ingredients (IngredientName, IngredientType) values (myIngredientName, myIngredientType);
-insert into Meal (RecipeName, IngredientId) values (myRecipeName, myIngredientId);
-end if;
 
+SET existingIngredientId = (SELECT Id FROM Ingredients WHERE IngredientName = myIngredientName);
+insert into Meal (RecipeName, IngredientId) values (myRecipeName, existingIngredientId);
+end if;
 
 END $$
 delimiter ;
 
-
+CALL InsertRecipeIngredients("Potato", "Produce", "Shepherd's Pie");
 
 
 
