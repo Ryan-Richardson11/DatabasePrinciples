@@ -188,16 +188,25 @@ if (select IsExistingIngredient(myIngredientName) = false) then
 insert into Ingredients (IngredientName, IngredientType) values (myIngredientName, myIngredientType);
 
 SET existingIngredientId = (SELECT Id FROM Ingredients WHERE IngredientName = myIngredientName);
-insert into Meal (RecipeName, IngredientId) values (myRecipeName, existingIngredientId);
-end if;
 
+IF NOT EXISTS (SELECT RecipeName FROM Meal WHERE RecipeName = myRecipeName AND IngredientId = existingIngredientId) THEN
+INSERT INTO Meal (RecipeName, IngredientId) VALUES (myRecipeName, existingIngredientId);
+
+end if;
+end if;
 END $$
 delimiter ;
 
-CALL InsertRecipeIngredients("Potato", "Produce", "Shepherd's Pie");
+CALL InsertRecipeIngredients("Potato", "produce", "Shepherd's Pie");
+CALL InsertRecipeIngredients("Butter", "dairy", "Shepherd's Pie");
+CALL InsertRecipeIngredients("Mixed Vegetables", "produce", "Shepherd's Pie");
+CALL InsertRecipeIngredients("Ground Beef", "meat", "Shepherd's Pie");
 
-
-
+select count(m.IngredientId) as IngredientCount, r.RecipeName, r.CookbookName
+from Meal as m, Recipe as r
+where m.RecipeName = r.RecipeName
+group by r.RecipeName, r.CookbookName
+order by IngredientCount DESC;
 
 
 
