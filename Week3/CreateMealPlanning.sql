@@ -118,19 +118,21 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
 -- A function to determine if an ingredient is in the Ingredients table
-DROP FUNCTION IF EXISTS IsValidIngredient;
+DROP FUNCTION IF EXISTS IsExistingIngredient;
 delimiter $$
-CREATE FUNCTION IsValidIngredient (IngredientToCheck varchar(200))
+CREATE FUNCTION IsExistingIngredient (IngredientToCheck varchar(200))
 RETURNS boolean deterministic
 BEGIN
-declare IsValid boolean;
-SET IsValid = EXISTS
+declare IsExisting boolean;
+SET IsExisting = EXISTS
 	(SELECT IngredientName
 	FROM Ingredients
 	WHERE IngredientName = IngredientToCheck);
-return IsValid;
+return IsExisting;
 END$$
 delimiter ;
+
+Select IsExistingIngredient("Butter");
 
 -- Using stored procedure to add my favorite recipe to the database
 DROP PROCEDURE IF EXISTS InsertNewRecipe;
@@ -170,10 +172,24 @@ delimiter ;
 
 CALL InsertNewRecipe("Shepherd's Pie", "Dude Diet", 5, true, null);
 
+-- Stored procedure to insert all needed ingredients for my favorite recipe
+DROP PROCEDURE IF EXISTS InsertRecipeIngredients;
 
-Select *
-From Recipe;
+delimiter $$
+CREATE PROCEDURE InsertRecipeIngredients (
+myIngredientName varchar(100),
+myIngredientType varchar(100),
+myRecipeName varchar(100),
+myIngredientId int)
+BEGIN
+if (select IsExistingIngredient(myIngredientName) = false) then
+insert into Ingredients (IngredientName, IngredientType) values (myIngredientName, myIngredientType);
+insert into Meal (RecipeName, IngredientId) values (myRecipeName, myIngredientId);
+end if;
 
+
+END $$
+delimiter ;
 
 
 
