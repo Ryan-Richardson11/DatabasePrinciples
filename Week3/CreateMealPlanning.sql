@@ -217,7 +217,7 @@ BEGIN
 SELECT i.IngredientName as RecipeIngredients
 FROM ingredients as i, meal as m
 WHERE m.RecipeName = myRecipeName and m.IngredientId = i.Id
-order by i.IngredientName DESC; 
+order by i.IngredientName ASC; 
 
 END $$
 delimiter ;
@@ -236,15 +236,22 @@ order by CookbookName, RecipeName, IngredientName;
 select *
 from RecipeInformation;
 
--- Query to show number of ingredients in each Recipe
+-- Query to show number of ingredients in each Recipe ----------------------------------------------------------------------
 select count(m.IngredientId) as IngredientCount, r.RecipeName
 from Meal as m, Recipe as r
 where m.RecipeName = r.RecipeName
 group by r.RecipeName
 order by IngredientCount DESC;
 
-
-
+-- Query to display what ingredients are not contained in my favorite recipe
+select IngredientName as NotInFavoriteRecipe
+from Ingredients
+where IngredientName not in (
+	select i.IngredientName
+    from meal as m, Ingredients as i
+    where m.RecipeName = "Shepherd's Pie" and m.IngredientId = i.Id
+)
+order by IngredientName ASC;
 
 
 
