@@ -117,7 +117,7 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
--- A function to determine if an ingredient is in the Ingredients table
+-- A function to determine if an ingredient is in the Ingredients table ------------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS IsExistingIngredient;
 delimiter $$
 CREATE FUNCTION IsExistingIngredient (IngredientToCheck varchar(200))
@@ -134,7 +134,7 @@ delimiter ;
 
 Select IsExistingIngredient("Butter");
 
--- Using stored procedure to add my favorite recipe to the database
+-- Using stored procedure to add my favorite recipe to the database --------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS InsertNewRecipe;
 
 delimiter $$
@@ -172,7 +172,7 @@ delimiter ;
 
 CALL InsertNewRecipe("Shepherd's Pie", "Dude Diet", 5, true, null);
 
--- Stored procedure to insert all needed ingredients for my favorite recipe
+-- Stored procedure to insert all needed ingredients for my favorite recipe ---------------------------------------------------------------
 DROP PROCEDURE IF EXISTS InsertRecipeIngredients;
 
 delimiter $$
@@ -208,10 +208,33 @@ where m.RecipeName = r.RecipeName
 group by r.RecipeName, r.CookbookName
 order by IngredientCount DESC;
 
+-- Stored procedure to take a recipe name and return all ingredients in alphabetical order -----------------------------------------------------------
+delimiter $$
+CREATE PROCEDURE ReturnRecipeIngredients (
+myRecipeName varchar(100))
+BEGIN
 
+SELECT i.IngredientName as RecipeIngredients
+FROM ingredients as i, meal as m
+WHERE m.RecipeName = myRecipeName and m.IngredientId = i.Id
+order by i.IngredientName DESC; 
 
+END $$
+delimiter ;
 
+CALL ReturnRecipeIngredients("Stir Fry");
 
+-- View that displays all RecipeNames, their cookbooks, and their ingredients -----------------------------------------------------------------------------
+DROP VIEW IF EXISTS RecipeInformation;
+
+Create view RecipeInformation as
+select distinct r.RecipeName, r.CookbookName, i.IngredientName
+from Recipe as r, meal as m, Ingredients as i
+where r.RecipeName = m.RecipeName and m.IngredientId = i.Id
+order by CookbookName, RecipeName, IngredientName;
+
+select *
+from RecipeInformation;
 
 
 
