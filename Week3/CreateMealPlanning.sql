@@ -236,6 +236,13 @@ order by CookbookName, RecipeName, IngredientName;
 select *
 from RecipeInformation;
 
+-- Query to show number of ingredients in each Recipe
+select count(m.IngredientId) as IngredientCount, r.RecipeName
+from Meal as m, Recipe as r
+where m.RecipeName = r.RecipeName
+group by r.RecipeName
+order by IngredientCount DESC;
+
 
 
 
