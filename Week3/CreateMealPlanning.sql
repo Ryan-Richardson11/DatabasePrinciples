@@ -117,7 +117,7 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
--- A function to determine if an ingredient is in the Ingredients table ------------------------------------------------------------------------------
+-- A function to determine if an ingredient is in the Ingredients table // Another function to see if the ingredient is already tied to a RecipeName ------------------------------------------------------------------------------
 DROP FUNCTION IF EXISTS IsExistingIngredient;
 delimiter $$
 CREATE FUNCTION IsExistingIngredient (IngredientToCheck varchar(200))
@@ -133,6 +133,20 @@ END$$
 delimiter ;
 
 Select IsExistingIngredient("Butter");
+
+DROP FUNCTION IF EXISTS IsIngredientInRecipe;
+delimiter $$
+CREATE FUNCTION IsIngredientInRecipe (IngredientToCheck varchar(200), RecipeToCheck varchar(100))
+RETURNS boolean deterministic
+BEGIN
+declare IsExisting boolean;
+SET IsExisting = EXISTS
+	(SELECT m.RecipeName
+	FROM Meal as m, Ingredients as i
+	WHERE i.IngredientName = IngredientToCheck and m.RecipeName = RecipeToCheck and m.IngredientId = i.Id);
+return IsExisting;
+END$$
+delimiter ;
 
 -- Using stored procedure to add my favorite recipe to the database --------------------------------------------------------------------
 DROP PROCEDURE IF EXISTS InsertNewRecipe;
@@ -184,10 +198,10 @@ myRecipeName varchar(100))
 BEGIN
 DECLARE existingIngredientId INT;
 
-if (select IsExistingIngredient(myIngredientName) = false) then
+if (select IsIngredientInRecipe(myIngredientName, myRecipeName) = false) then
 insert into Ingredients (IngredientName, IngredientType) values (myIngredientName, myIngredientType);
 
-SET existingIngredientId = (SELECT Id FROM Ingredients WHERE IngredientName = myIngredientName);
+SET existingIngredientId = (SELECT Id FROM Ingredients WHERE IngredientName = myIngredientName LIMIT 1);
 
 IF NOT EXISTS (SELECT RecipeName FROM Meal WHERE RecipeName = myRecipeName AND IngredientId = existingIngredientId) THEN
 INSERT INTO Meal (RecipeName, IngredientId) VALUES (myRecipeName, existingIngredientId);
