@@ -117,7 +117,7 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
--- A function to determine if an ingredient is in the Ingredients table // Another function to see if the ingredient is already tied to a RecipeName ------------------------------------------------------------------------------
+-- A function to determine if an ingredient is in the Ingredients table // Another function to see if the ingredient is already tied to a RecipeName
 DROP FUNCTION IF EXISTS IsExistingIngredient;
 delimiter $$
 CREATE FUNCTION IsExistingIngredient (IngredientToCheck varchar(200))
@@ -148,7 +148,7 @@ return IsExisting;
 END$$
 delimiter ;
 
--- Using stored procedure to add my favorite recipe to the database --------------------------------------------------------------------
+-- Using stored procedure to add my favorite recipe to the database
 DROP PROCEDURE IF EXISTS InsertNewRecipe;
 
 delimiter $$
@@ -215,14 +215,14 @@ CALL InsertRecipeIngredients("Potato", "produce", "Shepherd's Pie");
 CALL InsertRecipeIngredients("Butter", "dairy", "Shepherd's Pie");
 CALL InsertRecipeIngredients("Mixed Vegetables", "produce", "Shepherd's Pie");
 CALL InsertRecipeIngredients("Ground Beef", "meat", "Shepherd's Pie");
-
+-- Checking that the correct number of ingredients were inserted
 select count(m.IngredientId) as IngredientCount, r.RecipeName, r.CookbookName
 from Meal as m, Recipe as r
 where m.RecipeName = r.RecipeName
 group by r.RecipeName, r.CookbookName
 order by IngredientCount DESC;
 
--- Stored procedure to take a recipe name and return all ingredients in alphabetical order -----------------------------------------------------------
+-- Stored procedure to take a recipe name and return all ingredients in alphabetical order
 delimiter $$
 CREATE PROCEDURE ReturnRecipeIngredients (
 myRecipeName varchar(100))
@@ -238,7 +238,7 @@ delimiter ;
 
 CALL ReturnRecipeIngredients("Stir Fry");
 
--- View that displays all RecipeNames, their cookbooks, and their ingredients -----------------------------------------------------------------------------
+-- View that displays all RecipeNames, their cookbooks, and their ingredients
 DROP VIEW IF EXISTS RecipeInformation;
 
 Create view RecipeInformation as
@@ -250,7 +250,7 @@ order by CookbookName, RecipeName, IngredientName;
 select *
 from RecipeInformation;
 
--- Query to show number of ingredients in each Recipe ----------------------------------------------------------------------
+-- Query to show number of ingredients in each Recipe
 select count(m.IngredientId) as IngredientCount, r.RecipeName
 from Meal as m, Recipe as r
 where m.RecipeName = r.RecipeName
