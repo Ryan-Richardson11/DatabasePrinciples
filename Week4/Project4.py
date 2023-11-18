@@ -7,6 +7,16 @@ db = mysql.connector.connect(host = "localhost", user = my_username, password = 
 
 cursor = db.cursor()
 
-cursor.execute("SELECT * FROM Ingredients;")
-for i in cursor:
+# Displays a list of cookbooks in the database
+cursor.execute("SELECT CookbookName FROM Cookbook;")
+cookbooks = cursor.fetchall()
+for i in cookbooks:
+    print(i)
+# The user picks one of the cookbooks
+cookbook_choice = input("Please select a cookbook from this list: ")
+
+# Displays all recipies in the cookbook the user picked
+cursor.execute("SELECT RecipeName FROM Recipe as r Where r.CookbookName = %s;", (cookbook_choice,))
+cookbook_recipes = cursor.fetchall()
+for i in cookbook_recipes:
     print(i)

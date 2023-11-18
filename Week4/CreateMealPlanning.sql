@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Cookbook (
 CookbookName varchar(200)  not null,
 IsBook bool not null,
 Website varchar(200),
-PRIMARY KEY ( CookbookName)
+PRIMARY KEY (CookbookName)
 );
 
 -- When i created the Recipe relation as a table, again I decided to rename some of my attrbutes. Name and Source are MySql keywords we want to avoid.
