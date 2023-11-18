@@ -6,3 +6,7 @@ my_password = input("Please enter your password: ")
 db = mysql.connector.connect(host = "localhost", user = my_username, password = my_password, database = "MealPlanning")
 
 cursor = db.cursor()
+
+cursor.execute("SELECT * FROM Ingredients;")
+for i in cursor:
+    print(i)
