@@ -1,11 +1,17 @@
 import mysql.connector
 
+# Initializing the holiday menu and shopping list to be updated throughout the program.
+holidayMenu = []
+shoppingList = []
+
+
 def selectRecipeFromCookbook():
 
     my_username = input("Please enter your username: ")
     my_password = input("Please enter your password: ")
 
-    db = mysql.connector.connect(host = "localhost", user = my_username, password = my_password, database = "MealPlanning")
+    db = mysql.connector.connect(
+        host="localhost", user=my_password, password=my_username, database="MealPlanning")
 
     cursor = db.cursor()
 
@@ -18,7 +24,8 @@ def selectRecipeFromCookbook():
     cookbook_choice = input("Please select a cookbook from this list: ")
 
     # Displays all recipies in the cookbook the user picked
-    cursor.execute("SELECT RecipeName FROM Recipe as r WHERE r.CookbookName = %s;", (cookbook_choice,))
+    cursor.execute(
+        "SELECT RecipeName FROM Recipe as r WHERE r.CookbookName = %s;", (cookbook_choice,))
     cookbook_recipes = cursor.fetchall()
     for i in cookbook_recipes:
         print(i)
@@ -26,13 +33,43 @@ def selectRecipeFromCookbook():
     recipe_choice = input("Please select a recipe from this list: ")
 
     # Displays all ingredients in the selected recipe
-    cursor.execute("SELECT IngredientName FROM meal as m, Ingredients as i WHERE m.IngredientId = i.Id and m.RecipeName = %s;", (recipe_choice,))
+    cursor.execute(
+        "SELECT IngredientName FROM meal as m, Ingredients as i WHERE m.IngredientId = i.Id and m.RecipeName = %s;", (recipe_choice,))
     recipe_ingredients = cursor.fetchall()
     for i in recipe_ingredients:
         print(i)
 
-def saveRecipeToHolidayMenu(RecipeName, CookbookName, Ingredients, courseServed):
-    pass
+    saveRecipe = input(
+        "Would you like to save this recipe to the holiday menu? (Y or N): ")
+    if saveRecipe == "Y":
+        courseServed = input("What course will this be served as?: ")
+        saveRecipeToHolidayMenu(holidayMenu, cookbook_choice, recipe_choice, list(
+            recipe_ingredients), courseServed)
+
+
+def saveRecipeToHolidayMenu(holidayMenu, RecipeName, CookbookName, Ingredients, courseServed):
+    holidayMenu.append([RecipeName, CookbookName, Ingredients, courseServed])
+
+
+def addToShoppingList():
+    item = input("What item would you like to add to the shopping list?: ")
+    shoppingList.append(item)
+    print(shoppingList)
+
+
+def diplayHolidayMenu(holidayMenu):
+    for meal in holidayMenu:
+        print(f"Recipe Name: {meal[0]}")
+        print(f"Cookbook Name: {meal[1]}")
+        print(f"Ingredients: {meal[2]}")
+        print(f"Course Served: {meal[3]}")
+        print("\n")
+
+
+def displayShoppingList(shoppingList):
+    for item in shoppingList:
+        print(item)
+
 
 def main():
 
@@ -40,42 +77,31 @@ def main():
         print("Select which action you would like to take: ")
         print("===============================================")
         print("1. View a recipe in a cookbook")
-        print("2. Get Account information and balance")
-        print("3. Change PIN")
-        print("4. Deposit money in account")
+        print("2. Add an item to the shopping list")
+        print("3. Display holiday menu")
+        print("4. Display shopping list")
         print("5. Transfer money between accounts")
-        print("6. Withdraw money from account")
-        print("7. ATM withdrawal")
-        print("8. Deposit Change")
-        print("9. Close an account")
-        print("10. Add monthly interest to all accounts")
-        print("11. Display balance in cents")
-        print("12. End Program")
         print("===============================================")
 
         choice = input("Enter your choice (1-11): ")
 
         if choice == "1":
-           selectRecipeFromCookbook()
+            selectRecipeFromCookbook()
 
-        # elif choice == "2":
-            
-        # elif choice == "3":
-           
-        # elif choice == "4":
-            
-        # elif choice == "5":
-           
-        # elif choice == "6":
-            
-        # elif choice == "7":
-           
-        # elif choice == "8":
-            
-        elif choice == "9":
+        elif choice == "2":
+            addToShoppingList()
+
+        elif choice == "3":
+            diplayHolidayMenu(holidayMenu)
+
+        elif choice == "4":
+            displayShoppingList(shoppingList)
+
+        elif choice == "5":
             break
         else:
             print("Invalid choice \n")
             continue
+
 
 main()
