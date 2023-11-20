@@ -46,6 +46,9 @@ def selectRecipeFromCookbook():
         saveCurrentRecipeToHolidayMenu(holidayMenu, cookbook_choice, recipe_choice, list(
             recipe_ingredients), courseServed)
 
+    cursor.close()
+    db.close()
+
 
 def saveCurrentRecipeToHolidayMenu(RecipeName, CookbookName, Ingredients, courseServed):
     holidayMenu.append([RecipeName, CookbookName, Ingredients, courseServed])
@@ -58,7 +61,7 @@ def saveRecipeToHolidayMenu():
     while True:
         Ingredients = input(
             "Keep entering ingredients until complete (0 to stop): ")
-        if Ingredients == 0:
+        if Ingredients == "0":
             break
         else:
             IngredientsList.append(Ingredients)
@@ -100,7 +103,7 @@ def main():
         print("6. Terminate Program")
         print("===============================================")
 
-        choice = input("Enter your choice (1-11): ")
+        choice = input("Enter your choice (1-6): ")
 
         if choice == "1":
             selectRecipeFromCookbook()
@@ -109,7 +112,7 @@ def main():
             addToShoppingList()
 
         elif choice == "3":
-            addToShoppingList()
+            saveRecipeToHolidayMenu()
 
         elif choice == "4":
             displayShoppingList(shoppingList)
