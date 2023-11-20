@@ -43,12 +43,28 @@ def selectRecipeFromCookbook():
         "Would you like to save this recipe to the holiday menu? (Y or N): ")
     if saveRecipe == "Y":
         courseServed = input("What course will this be served as?: ")
-        saveRecipeToHolidayMenu(holidayMenu, cookbook_choice, recipe_choice, list(
+        saveCurrentRecipeToHolidayMenu(holidayMenu, cookbook_choice, recipe_choice, list(
             recipe_ingredients), courseServed)
 
 
-def saveRecipeToHolidayMenu(holidayMenu, RecipeName, CookbookName, Ingredients, courseServed):
+def saveCurrentRecipeToHolidayMenu(RecipeName, CookbookName, Ingredients, courseServed):
     holidayMenu.append([RecipeName, CookbookName, Ingredients, courseServed])
+
+
+def saveRecipeToHolidayMenu():
+    RecipeName = input("Enter the recipe name: ")
+    CookbookName = input("Enter the cookbook name: ")
+    IngredientsList = []
+    while True:
+        Ingredients = input(
+            "Keep entering ingredients until complete (0 to stop): ")
+        if Ingredients == 0:
+            break
+        else:
+            IngredientsList.append(Ingredients)
+    courseServed = input("Enter the course it is served: ")
+
+    holidayMenu.append(RecipeName, CookbookName, IngredientsList, courseServed)
 
 
 def addToShoppingList():
@@ -78,9 +94,10 @@ def main():
         print("===============================================")
         print("1. View a recipe in a cookbook")
         print("2. Add an item to the shopping list")
-        print("3. Display holiday menu")
+        print("3. Add a recipe to the holiday menu")
         print("4. Display shopping list")
-        print("5. Transfer money between accounts")
+        print("5. Display holiday menu")
+        print("6. Terminate Program")
         print("===============================================")
 
         choice = input("Enter your choice (1-11): ")
@@ -92,12 +109,15 @@ def main():
             addToShoppingList()
 
         elif choice == "3":
-            diplayHolidayMenu(holidayMenu)
+            addToShoppingList()
 
         elif choice == "4":
             displayShoppingList(shoppingList)
 
         elif choice == "5":
+            diplayHolidayMenu(holidayMenu)
+
+        elif choice == "6":
             break
         else:
             print("Invalid choice \n")
