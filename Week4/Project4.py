@@ -7,51 +7,59 @@ shoppingList = []
 
 def selectRecipeFromCookbook():
 
-    my_username = input("Please enter your username: ")
-    my_password = input("Please enter your password: ")
+    try:
+        my_username = input("Please enter your username: ")
+        my_password = input("Please enter your password: ")
 
-    db = mysql.connector.connect(
-        host="localhost", user=my_username, password=my_password, database="MealPlanning")
+        db = mysql.connector.connect(
+            host="localhost", user=my_username, password=my_password, database="MealPlanning")
 
-    cursor = db.cursor()
+        cursor = db.cursor()
 
-    # Displays a list of cookbooks in the database
-    cursor.execute("SELECT CookbookName FROM Cookbook;")
-    cookbooks = cursor.fetchall()
-    for i in cookbooks:
-        print(i)
-    # The user picks one of the cookbooks
-    cookbook_choice = input("Please select a cookbook from this list: ")
+        # Displays a list of cookbooks in the database
+        cursor.callproc("SelectCookbooks")
+        for cookbook in cursor.stored_results():
+            cookbooks = cookbook.fetchall()
+        for i in cookbooks:
+            print(i)
+        # The user picks one of the cookbooks
+        cookbook_choice = input("Please select a cookbook from this list: ")
 
-    # Displays all recipies in the cookbook the user picked
-    cursor.execute(
-        "SELECT RecipeName FROM Recipe as r WHERE r.CookbookName = %s;", (cookbook_choice,))
-    cookbook_recipes = cursor.fetchall()
-    for i in cookbook_recipes:
-        print(i)
-    # The user picks one of the cookbooks
-    recipe_choice = input("Please select a recipe from this list: ")
+        # Displays all recipies in the cookbook the user picked
+        cursor.callproc("SelectRecipesFromCookbook", [cookbook_choice])
+        for recipe in cursor.stored_results():
+            cookbook_recipes = recipe.fetchall()
+        for i in cookbook_recipes:
+            print(i)
+        # The user picks one of the cookbooks
+        recipe_choice = input("Please select a recipe from this list: ")
 
-    # Displays all ingredients in the selected recipe
-    cursor.execute(
-        "SELECT IngredientName FROM meal as m, Ingredients as i WHERE m.IngredientId = i.Id and m.RecipeName = %s;", (recipe_choice,))
-    recipe_ingredients = cursor.fetchall()
-    for i in recipe_ingredients:
-        print(i)
+        # Displays all ingredients in the selected recipe
+        cursor.callproc("SelectIngredientsFromRecipe", [recipe_choice])
+        for ingredient in cursor.stored_results():
+            recipe_ingredients = ingredient.fetchall()
+        for i in recipe_ingredients:
+            print(i)
 
-    saveRecipe = input(
-        "Would you like to save this recipe to the holiday menu? (Y or N): ")
-    if saveRecipe == "Y":
-        courseServed = input("What course will this be served as?: ")
-        saveCurrentRecipeToHolidayMenu(holidayMenu, cookbook_choice, recipe_choice, list(
-            recipe_ingredients), courseServed)
+        saveRecipe = input(
+            "Would you like to save this recipe to the holiday menu? (Y or N): ")
+        if saveRecipe == "Y":
+            courseServed = input("What course will this be served as?: ")
+            saveCurrentRecipeToHolidayMenu(recipe_choice, cookbook_choice, list(
+                recipe_ingredients), courseServed)
 
-    cursor.close()
-    db.close()
+        cursor.close()
+        db.close()
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+
+# Used to save the current recipe being viewed to the holiday menu
 
 
 def saveCurrentRecipeToHolidayMenu(RecipeName, CookbookName, Ingredients, courseServed):
     holidayMenu.append([RecipeName, CookbookName, Ingredients, courseServed])
+
+# Saves a recipe in the holiday menu from scratch
 
 
 def saveRecipeToHolidayMenu():
@@ -67,13 +75,18 @@ def saveRecipeToHolidayMenu():
             IngredientsList.append(Ingredients)
     courseServed = input("Enter the course it is served: ")
 
-    holidayMenu.append(RecipeName, CookbookName, IngredientsList, courseServed)
+    holidayMenu.append(
+        [RecipeName, CookbookName, IngredientsList, courseServed])
+
+# Appends inputed item to the shopping list
 
 
 def addToShoppingList():
     item = input("What item would you like to add to the shopping list?: ")
     shoppingList.append(item)
-    print(shoppingList)
+    print("Item added.")
+
+# Formats and dispays all recipes on the hoilday menu
 
 
 def diplayHolidayMenu(holidayMenu):
@@ -83,6 +96,8 @@ def diplayHolidayMenu(holidayMenu):
         print(f"Ingredients: {meal[2]}")
         print(f"Course Served: {meal[3]}")
         print("\n")
+
+# Displays all items on the shopping list
 
 
 def displayShoppingList(shoppingList):

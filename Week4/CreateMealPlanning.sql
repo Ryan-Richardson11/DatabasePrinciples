@@ -118,10 +118,38 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
+--Procedure to select all cookbooks
+DELIMITER $$
+CREATE PROCEDURE SelectCookbooks()
+BEGIN
+    SELECT CookbookName FROM Cookbook;
+END $$
 
+DELIMITER ;
 
+-- Procedure to select all the recipies from the inputed cookbook
+DELIMITER $$
+CREATE PROCEDURE SelectRecipesFromCookbook(IN cookbook_choice VARCHAR(100))
+BEGIN
+    SELECT RecipeName
+    FROM Recipe AS r
+    WHERE r.CookbookName = cookbook_choice;
+END $$
 
+DELIMITER ;
 
+-- Procedure to select all ingredients from the inputed recipe
+DELIMITER $$
+
+CREATE PROCEDURE SelectIngredientsFromRecipe(IN recipe_choice VARCHAR(100))
+BEGIN
+    SELECT i.IngredientName
+    FROM Meal AS m
+    JOIN Ingredients AS i ON m.IngredientId = i.Id
+    WHERE m.RecipeName = recipe_choice;
+END $$
+
+DELIMITER ;
 
 
 
