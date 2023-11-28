@@ -21,7 +21,7 @@ class Presentation:
             choice = input("Enter your choice (1-6): ")
 
             if choice == "1":
-                data.selectRecipeFromCookbook()
+                data.selectRecipeFromCookbook(business)
 
             elif choice == "2":
                 business.addToShoppingList()

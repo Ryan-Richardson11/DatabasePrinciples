@@ -3,7 +3,7 @@ from BusinessLayer import Business
 
 class DatabaseConnection:
 
-    def selectRecipeFromCookbook(self):
+    def selectRecipeFromCookbook(self, business):
 
         try:
             my_username = input("Please enter your username: ")
@@ -19,6 +19,8 @@ class DatabaseConnection:
             for cookbook in cursor.stored_results():
                 cookbooks = cookbook.fetchall()
             for i in cookbooks:
+                i = str(i)
+                i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
             # The user picks one of the cookbooks
             cookbook_choice = input("Please select a cookbook from this list: ")
@@ -28,6 +30,8 @@ class DatabaseConnection:
             for recipe in cursor.stored_results():
                 cookbook_recipes = recipe.fetchall()
             for i in cookbook_recipes:
+                i = str(i)
+                i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
             # The user picks one of the cookbooks
             recipe_choice = input("Please select a recipe from this list: ")
@@ -37,14 +41,19 @@ class DatabaseConnection:
             for ingredient in cursor.stored_results():
                 recipe_ingredients = ingredient.fetchall()
             for i in recipe_ingredients:
+                i = str(i)
+                i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
 
             saveRecipe = input(
                 "Would you like to save this recipe to the holiday menu? (Y or N): ")
             if saveRecipe == "Y":
                 courseServed = input("What course will this be served as?: ")
-                Business.saveCurrentRecipeToHolidayMenu(recipe_choice, cookbook_choice, list(
-                    recipe_ingredients), courseServed)
+                business.saveCurrentRecipeToHolidayMenu(recipe_choice, cookbook_choice, list(recipe_ingredients), courseServed)
+                for ingredient in recipe_ingredients:
+                    ingredient = str(ingredient)
+                    ingredient = ingredient.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
+                    business.addToShoppingListFromMenu(ingredient)
 
             cursor.close()
             db.close()

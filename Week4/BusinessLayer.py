@@ -28,19 +28,29 @@ class Business:
 
         self.holidayMenu.append(
             [RecipeName, CookbookName, IngredientsList, courseServed])
+        for ingredient in IngredientsList:
+            self.addToShoppingListFromMenu(ingredient)
 
-    # Appends inputed item to the shopping list
+    # Appends item to the shopping list from a menu course
+    def addToShoppingListFromMenu(self, ingredient):
+        self.shoppingList.append(ingredient)
 
 
+    # Appends inputted item to the shopping list
     def addToShoppingList(self):
-        item = input("What item would you like to add to the shopping list?: ")
-        self.shoppingList.append(item)
-        print("Item added.")
+        while True:
+            item = input("What item would you like to add to the shopping list? (0 to stop): ")
+            if item == "0":
+                break
+            else:
+                self.shoppingList.append(item)
+                print("Item added.")
 
     # Formats and dispays all recipes on the hoilday menu
 
 
     def diplayHolidayMenu(self):
+        print("Menu Items: \n")
         for meal in self.holidayMenu:
             print(f"Recipe Name: {meal[0]}")
             print(f"Cookbook Name: {meal[1]}")
@@ -52,5 +62,6 @@ class Business:
 
 
     def displayShoppingList(self):
+        print("Shopping List: \n")
         for item in self.shoppingList:
             print(item)

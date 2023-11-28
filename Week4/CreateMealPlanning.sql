@@ -118,7 +118,7 @@ INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 14);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 13);
 INSERT INTO Meal (RecipeName, IngredientId) VALUES ("Chicken Stew", 3);
 
---Procedure to select all cookbooks
+-- Procedure to select all cookbooks
 DELIMITER $$
 CREATE PROCEDURE SelectCookbooks()
 BEGIN
