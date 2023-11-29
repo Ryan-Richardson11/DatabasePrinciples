@@ -44,7 +44,7 @@ class Business:
 
     # Formats and dispays all recipes on the hoilday menu
     def diplayHolidayMenu(self):
-        print("Menu Items: \n")
+        print("MENU ITEMS: \n")
         for meal in self.holidayMenu:
             print(f"Recipe Name: {meal[0]}")
             print(f"Cookbook Name: {meal[1]}")
@@ -54,6 +54,6 @@ class Business:
 
     # Displays all items on the shopping list
     def displayShoppingList(self):
-        print("Shopping List: \n")
+        print("SHOPPING LIST: \n")
         for item in self.shoppingList:
             print(item)

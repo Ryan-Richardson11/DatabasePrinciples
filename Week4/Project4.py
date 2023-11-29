@@ -22,13 +22,18 @@ def selectRecipeFromCookbook():
             cookbooks = cookbook.fetchall()
         for i in cookbooks:
             print(i)
-        # The user picks one of the cookbooks
-        cookbook_choice = input("Please select a cookbook from this list: ")
+        while True:
+            # The user picks one of the cookbooks
+            cookbook_choice = input("Please select a cookbook from this list: ")
 
-        # Displays all recipies in the cookbook the user picked
-        cursor.callproc("SelectRecipesFromCookbook", [cookbook_choice])
-        for recipe in cursor.stored_results():
-            cookbook_recipes = recipe.fetchall()
+            # Displays all recipies in the cookbook the user picked
+            cursor.callproc("SelectRecipesFromCookbook", [cookbook_choice])
+            for recipe in cursor.stored_results():
+                cookbook_recipes = recipe.fetchall()
+            if len(cookbook_recipes) == 0:
+                print("Invalid Cookbook Name.")
+            else:
+                break
         for i in cookbook_recipes:
             print(i)
         # The user picks one of the cookbooks

@@ -22,24 +22,36 @@ class DatabaseConnection:
                 i = str(i)
                 i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
-            # The user picks one of the cookbooks
-            cookbook_choice = input("Please select a cookbook from this list: ")
+                
+            while True:
+                # The user picks one of the cookbooks
+                cookbook_choice = input("Please select a cookbook from this list: ")
 
-            # Displays all recipies in the cookbook the user picked
-            cursor.callproc("SelectRecipesFromCookbook", [cookbook_choice])
-            for recipe in cursor.stored_results():
-                cookbook_recipes = recipe.fetchall()
+                # Displays all recipies in the cookbook the user picked
+                cursor.callproc("SelectRecipesFromCookbook", [cookbook_choice])
+                for recipe in cursor.stored_results():
+                    cookbook_recipes = recipe.fetchall()
+                if len(cookbook_recipes) == 0:
+                    print("Invalid Cookbook Name.")
+                else:
+                    break
             for i in cookbook_recipes:
                 i = str(i)
                 i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
-            # The user picks one of the cookbooks
-            recipe_choice = input("Please select a recipe from this list: ")
 
-            # Displays all ingredients in the selected recipe
-            cursor.callproc("SelectIngredientsFromRecipe", [recipe_choice])
-            for ingredient in cursor.stored_results():
-                recipe_ingredients = ingredient.fetchall()
+            while True:
+                # The user picks one of the cookbooks
+                recipe_choice = input("Please select a recipe from this list: ")
+
+                # Displays all ingredients in the selected recipe
+                cursor.callproc("SelectIngredientsFromRecipe", [recipe_choice])
+                for ingredient in cursor.stored_results():
+                    recipe_ingredients = ingredient.fetchall()
+                if recipe_ingredients == 0:
+                    print("Invalid Recipe Name")
+                else:
+                    break
             for i in recipe_ingredients:
                 i = str(i)
                 i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
