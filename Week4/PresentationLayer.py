@@ -4,6 +4,7 @@ from BusinessLayer import Business
 class Presentation:
 
     def main():
+        # Instantiates business Business() and DatabaseConnection() objects
         business = Business()
         data = DatabaseConnection()
 

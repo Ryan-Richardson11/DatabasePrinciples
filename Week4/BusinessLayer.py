@@ -5,14 +5,10 @@ class Business:
         self.shoppingList = []
 
     # Used to save the current recipe being viewed to the holiday menu
-
-
     def saveCurrentRecipeToHolidayMenu(self, RecipeName, CookbookName, Ingredients, courseServed):
         self.holidayMenu.append([RecipeName, CookbookName, Ingredients, courseServed])
 
     # Saves a recipe in the holiday menu from scratch
-
-
     def saveRecipeToHolidayMenu(self):
         RecipeName = input("Enter the recipe name: ")
         CookbookName = input("Enter the cookbook name: ")
@@ -47,8 +43,6 @@ class Business:
                 print("Item added.")
 
     # Formats and dispays all recipes on the hoilday menu
-
-
     def diplayHolidayMenu(self):
         print("Menu Items: \n")
         for meal in self.holidayMenu:
@@ -59,8 +53,6 @@ class Business:
             print("\n")
 
     # Displays all items on the shopping list
-
-
     def displayShoppingList(self):
         print("Shopping List: \n")
         for item in self.shoppingList:
