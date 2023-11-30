@@ -22,7 +22,7 @@ class DatabaseConnection:
                 i = str(i)
                 i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
-                
+
             while True:
                 # The user picks one of the cookbooks
                 cookbook_choice = input("Please select a cookbook from this list: ")
@@ -48,15 +48,15 @@ class DatabaseConnection:
                 cursor.callproc("SelectIngredientsFromRecipe", [recipe_choice])
                 for ingredient in cursor.stored_results():
                     recipe_ingredients = ingredient.fetchall()
-                if recipe_ingredients == 0:
-                    print("Invalid Recipe Name")
+                if len(recipe_ingredients) == 0:
+                    print("Invalid Recipe Name.")
                 else:
                     break
             for i in recipe_ingredients:
                 i = str(i)
                 i = i.replace("(", "").replace(")", "").replace(",", "").replace("'", "")
                 print(i)
-
+            # Asks if they would like to add the chosen recipe to the menu. If yes, menu and shopping list are updated.
             saveRecipe = input(
                 "Would you like to save this recipe to the holiday menu? (Y or N): ")
             if saveRecipe == "Y":
