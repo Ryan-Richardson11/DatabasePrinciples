@@ -1,0 +1,94 @@
+Requirements:
+
+Who is donating?
+What is the donors information?
+What is the name of the toy being donated?
+Is it on the wish list?
+Who are the toys going to?
+What is the toys unique product ID?
+
+Holiday Toy Drive (Rough Draft 1):
+
+Donor
+- DonorName (varchar(100))
+- DonorEmail (varchar(100))
+- ToyDonated (varchar(100))
+
+Toy
+- ToyName (varchar(100))
+- DonorName (varchar(100))
+- IsOnWishlist (bool)
+
+Recipient
+- RecipientName (varchar(100))
+- ToyRecieved (varchar(100))
+- DonorName (varchar(100))
+
+
+After reviewing my rough draft, the tables are not yet in first form due to a lack of good primary keys and rows that are not quite individual values. I changed ToyDonated to toy name to suggest one value. I changed the toy table to ToyDonated which will have the productId, number of that toy donated by each person, and whether or not it was on the wishlist. Lastly, I made ToyRecieved reflect the ToyId since it could also suggest multiple values.
+
+Holiday Toy Drive (Rough Draft 2):
+
+Donor
+- DonorName (varchar(100))
+- DonorEmail (varchar(100))
+- ToyName (varchar(100))
+
+ToyDonated
+- ToyName (varchar(100))
+- ProductId (int)
+- DonorEmail (varchar(100))
+- IsOnWishlist (bool)
+- NumberOfToys (int)
+
+Recipient
+- RecipientName (varchar(100))
+- IdOfToyRecieved (int)
+- DonorName (varchar(100))
+
+My tables are not yet in second normal form due to my toy table having some dependecies that need to be split into separate tables. IsOnWishlist and NumberOfToys would better fit in a ToyDetails relation. This will change the ToyDonated table as well to just hold ToyName, ProductId, and DonorEmail.
+
+Holiday Toy Drive (Rough Draft 3):
+
+Donor
+- DonorName (varchar(100))
+- DonorEmail (varchar(100))
+- ToyName (varchar(100))
+
+ToyDonated
+- ToyName (varchar(100))
+- ProductId (int)
+- DonorEmail (varchar(100))
+
+ToyDetails
+- ProductId (int)
+- IsOnWishList (bool)
+- NumberOfToys (int)
+
+Recipient
+- RecipientName (varchar(100))
+- IdOfToyRecieved (int)
+- DonorName (varchar(100))
+
+To make this database in third normal form I am going to remove ToyName from the Donor table since it is not functionally dependent on DonorEmail. I also removed DonorName from the Recipient table since it is not necessary nor is it functionally dependent on the primary key.
+
+Holiday Toy Drive (Final Database):
+
+Donor
+- DonorName (varchar(100))
+- DonorEmail (varchar(100)) (Primary Key) (Foreign Key)
+- ToyName (varchar(100))
+
+ToyDonated
+- ToyName (varchar(100))
+- ProductId (int) (Primary Key) (Foreign Key)
+- DonorEmail (varchar(100)) (Foreign Key)
+
+ToyDetails
+- ProductId (int) (Primary Key) (Foreign Key)
+- IsOnWishList (bool)
+- NumberOfToys (int)
+
+Recipient
+- RecipientName (varchar(100))
+- IdOfToyRecieved (int) (Primary Key) (Foreign Key)
