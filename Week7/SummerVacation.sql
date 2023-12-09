@@ -139,7 +139,8 @@ insert into SummerPlan (ActivityName, ParkName) values ("Soccer", "Gilette Stadi
 insert into SummerPlan (ActivityName, ParkName) values ("Baseball", "Fenway Park");
 insert into SummerPlan (ActivityName, ParkName) values ("Catch", "Fenway Park");
 
--- Nested select statements to find all activities not in these parks
+-- Nested select statements to find all activities not in these parks (Query 1)
+explain analyze
 select distinct s.ActivityName
 from SummerPlan as s
 where s.ActivityName not in (
@@ -149,7 +150,8 @@ where s.ActivityName not in (
 		or s.ParkName = "Bradley Palmer"
 );
 
--- Nested statements unnesssarily joining through foreign keys on a different table.
+-- Nested statements unnesssarily joining through foreign keys on a different table. (Query 2)
+explain analyze
 select distinct a.ActivityName
 from Activity as a
 where a.ActivityName not in (
@@ -160,16 +162,24 @@ where a.ActivityName not in (
 		or s.ParkName = "Bradley Palmer"
 );
 
--- Uses a tuple and selects all ActivityNames that are not associated with the given parks.
-SELECT DISTINCT a.ActivityName
-FROM Activity AS a
-WHERE NOT EXISTS (
-    SELECT s.ActivityName
-    FROM SummerPlan AS s
-    WHERE s.ActivityName = a.ActivityName
-      AND s.ParkName IN ("Bear Brook", "Pawtuckaway", "Bradley Palmer")
+-- Uses a tuple and selects all ActivityNames that are not associated with the given parks. (Query 3)
+explain analyze
+select distinct a.ActivityName
+from Activity as a
+where not exists (
+    select s.ActivityName
+    from SummerPlan as s
+    where s.ActivityName = a.ActivityName
+      and s.ParkName in ("Bear Brook", "Pawtuckaway", "Bradley Palmer")
 );
 
+-- Activities in Massachussets parks with four players
+explain analyze
+select distinct s.ActivityName
+from SummerPlan as s
+join Park as p on s.ParkName = p.ParkName 
+join Activity as a on s.ActivityName = a.ActivityName
+Where p.State = "MA" and a.NumPlayers = 4;
 
 
 
