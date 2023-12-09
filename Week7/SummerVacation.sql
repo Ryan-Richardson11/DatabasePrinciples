@@ -36,7 +36,8 @@ Address varchar(200),
 State varchar(2),
 StateId int,
 ZipCode varchar(6),
-Primary Key (ParkName)
+Primary Key (ParkName),
+Index StateIdx (State)
 );
 
 insert into Park (ParkName, Address, State, StateId, ZipCode) values ("Wells Beach", "Mile Road", "ME", 1,"43786");
@@ -173,7 +174,7 @@ where not exists (
       and s.ParkName in ("Bear Brook", "Pawtuckaway", "Bradley Palmer")
 );
 
--- Activities in Massachussets parks with four players
+-- Activities in Massachussets parks with four players (With and without State index)
 explain analyze
 select distinct s.ActivityName
 from SummerPlan as s
@@ -181,7 +182,20 @@ join Park as p on s.ParkName = p.ParkName
 join Activity as a on s.ActivityName = a.ActivityName
 Where p.State = "MA" and a.NumPlayers = 4;
 
+-- Activities that can be done while camping at a park
+Select ParkName, ActivityName
+from SummerPlan as s
+Where ActivityName in ("Camping");
 
+-- What water activities I can do this weekend and where
+Select s.ParkName, s.ActivityName
+From SummerPlan as s
+Where ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
+
+-- Where I can watch other people play a sport
+Select s.ParkName, s.ActivityName
+From SummerPlan as s
+Where ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
 
 
 
