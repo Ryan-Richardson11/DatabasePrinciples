@@ -185,17 +185,33 @@ Where p.State = "MA" and a.NumPlayers = 4;
 -- Activities that can be done while camping at a park
 Select ParkName, ActivityName
 from SummerPlan as s
-Where ActivityName in ("Camping");
+Where ParkName in ("Bear Brook", "Pawtuckaway", "Jigger Johnson") and s.ActivityName != "Camping";
 
 -- What water activities I can do this weekend and where
 Select s.ParkName, s.ActivityName
 From SummerPlan as s
-Where ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
+Where s.ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
 
 -- Where I can watch other people play a sport
 Select s.ParkName, s.ActivityName
 From SummerPlan as s
-Where ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
+Where s.ParkName in ("Gilette Stadium", "Fenway Park");
+
+-- A query where its execution plan contains a file scan
+Select *
+From SummerPlan;
+-- A query where its execution plan contains a index scan
+Select *
+From Park as p
+Where p.State = "NH";
+-- A query where its execution plan contains a clustered index scan
+Select *
+From SummerPlan as s
+Where s.ActivityName = "Yoga";
+-- A query where its execution plan contains a non-clustered index scan
+Select *
+From SummerPlan as s
+Where s.ParkName = "Bear Brook";
 
 
 
