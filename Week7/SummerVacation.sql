@@ -140,6 +140,7 @@ insert into SummerPlan (ActivityName, ParkName) values ("Soccer", "Gilette Stadi
 insert into SummerPlan (ActivityName, ParkName) values ("Baseball", "Fenway Park");
 insert into SummerPlan (ActivityName, ParkName) values ("Catch", "Fenway Park");
 
+-- QUESTION 1
 -- Nested select statements to find all activities not in these parks (Query 1)
 explain analyze
 select distinct s.ActivityName
@@ -174,6 +175,7 @@ where not exists (
       and s.ParkName in ("Bear Brook", "Pawtuckaway", "Bradley Palmer")
 );
 
+-- QUESTION 2
 -- Activities in Massachussets parks with four players (With and without State index)
 explain analyze
 select distinct s.ActivityName
@@ -182,32 +184,43 @@ join Park as p on s.ParkName = p.ParkName
 join Activity as a on s.ActivityName = a.ActivityName
 Where p.State = "MA" and a.NumPlayers = 4;
 
+-- QUESTION 3
 -- Activities that can be done while camping at a park
+Explain analyze
 Select ParkName, ActivityName
 from SummerPlan as s
 Where ParkName in ("Bear Brook", "Pawtuckaway", "Jigger Johnson") and s.ActivityName != "Camping";
 
 -- What water activities I can do this weekend and where
+Explain analyze
 Select s.ParkName, s.ActivityName
 From SummerPlan as s
 Where s.ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
 
 -- Where I can watch other people play a sport
+Explain analyze
 Select s.ParkName, s.ActivityName
 From SummerPlan as s
 Where s.ParkName in ("Gilette Stadium", "Fenway Park");
 
+-- QUESTION 4
 -- A query where its execution plan contains a file scan
 Select *
 From SummerPlan;
+
+-- QUESTION 5
 -- A query where its execution plan contains a index scan
 Select *
 From Park as p
 Where p.State = "NH";
+
+-- QUESTION 6
 -- A query where its execution plan contains a clustered index scan
 Select *
 From SummerPlan as s
 Where s.ActivityName = "Yoga";
+
+-- QUESTION 7
 -- A query where its execution plan contains a non-clustered index scan
 Select *
 From SummerPlan as s
