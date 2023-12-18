@@ -187,19 +187,19 @@ Where p.State = "MA" and a.NumPlayers = 4;
 -- QUESTION 3
 -- Activities that can be done while camping at a park
 Explain analyze
-Select ParkName, ActivityName
+Select distinct ParkName, ActivityName
 from SummerPlan as s
 Where ParkName in ("Bear Brook", "Pawtuckaway", "Jigger Johnson") and s.ActivityName != "Camping";
 
 -- What water activities I can do this weekend and where
 Explain analyze
-Select s.ParkName, s.ActivityName
+Select distinct s.ParkName, s.ActivityName
 From SummerPlan as s
 Where s.ActivityName in ("Kayaking", "Paddle Boarding", "Swimming", "Surfing", "Boogeyboarding");
 
 -- Where I can watch other people play a sport
 Explain analyze
-Select s.ParkName, s.ActivityName
+Select distinct s.ParkName, s.ActivityName
 From SummerPlan as s
 Where s.ParkName in ("Gilette Stadium", "Fenway Park");
 
@@ -225,9 +225,6 @@ Where s.ActivityName = "Yoga";
 Select *
 From SummerPlan as s
 Where s.ParkName = "Bear Brook";
-
-
-
 
 
 
